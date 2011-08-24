@@ -20,6 +20,8 @@ package 'lib32gcc1'
 
 srcds_root = '/home/chuck/srcds'
 
+#The below was adapted mostly from
+#http://forums.srcds.com/viewtopic/5424
 directory srcds_root do
   owner "chuck"
   group "chuck"
@@ -46,12 +48,6 @@ file File.join(srcds_root, 'orangebox/tf/cfg/server.cfg') do
   mode "644"
 end
 
-script "run tf2" do
-  interpreter "bash"
-  user "chuck"
-  cwd File.join(srcds_root,'organgebox')
-  not_if {system('test -n $(pidof ./srcds_run)')}
-  code <<-EOH
-  nohup ./srcds_run -game tf +map ctf_2fort +maxplayers 12 -autoupdate &
-  EOH
-end
+#The command is supposed to be something like the following, but I'm not seeing
+#any file like that presently...
+#nohup ./srcds_run -game tf +map ctf_2fort +maxplayers 12 -autoupdate &
