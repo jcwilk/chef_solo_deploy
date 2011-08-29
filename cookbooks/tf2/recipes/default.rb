@@ -53,7 +53,7 @@ end
 
 #server.cfg originally from http://forums.srcds.com/viewtopic/5264
 file File.join(srcds_root, 'orangebox/tf/cfg/server.cfg') do
-  user "chuck"
+  owner "chuck"
   mode "644"
 end
 
