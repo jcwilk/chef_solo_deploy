@@ -34,11 +34,22 @@ script "install steam" do
   cwd srcds_root
   not_if "test -d #{File.join(srcds_root,'/steam')}"
   code <<-EOH
-  wget http://www.steampowered.com/download/hldsupdatetool.bin
-  chmod +x hldsupdatetool.bin
-  echo "yes" | ./hldsupdatetool.bin
+  wget http://www.steampowered.com/download/hldsupdatetool.bin &&
+  chmod +x hldsupdatetool.bin &&
+  echo "yes" | ./hldsupdatetool.bin &&
   chmod +x steam
   EOH
+end
+
+script "verify steam up to date" do
+  interpreter "bash"
+  user "chuck"
+  cwd srcds_root
+  code <<-EOH
+  ./steam
+  true
+  EOH
+  #ignore return codes, this will update and fail or fail... lol, not the most elegant updater
 end
 
 script "install tf2" do
