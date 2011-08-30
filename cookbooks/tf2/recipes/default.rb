@@ -18,6 +18,9 @@ end
 #Required for hldsupdatetool.bin for some reason
 package 'lib32gcc1'
 
+#Required for the init script
+package 'screen'
+
 srcds_root = '/home/chuck/srcds'
 
 #The below was adapted mostly from
@@ -28,7 +31,7 @@ directory srcds_root do
   mode "0755"
 end
 
-file File.join(srcds_root, 'install_steam.sh') do
+cookbook_file File.join(srcds_root, 'install_steam.sh') do
   owner 'chuck'
   mode '0644'
 end
@@ -41,6 +44,8 @@ execute "install steam" do
   user 'chuck'
 end
 
+#NOTE: Chances are very high that this will hang. If it does, you're best off sshing in and running the script
+#yourself, killing it if it hangs, running it again, etc etc... It'll pick up where it left off.
 execute "install tf2" do
   cwd srcds_root
   command './steam -command update -game tf -dir . -verify_all -retry'
@@ -50,12 +55,18 @@ execute "install tf2" do
 end
 
 #server.cfg originally from http://forums.srcds.com/viewtopic/5264
-file File.join(srcds_root, 'orangebox/tf/cfg/server.cfg') do
+cookbook_file File.join(srcds_root, 'orangebox/tf/cfg/server.cfg') do
   owner "chuck"
   mode "0644"
 end
 
-#The command is supposed to be something like the following, but I'm not seeing
-#any file like that presently...
-#nohup ./srcds_run -game tf +map ctf_2fort +maxplayers 12 -autoupdate &
-#going to use an init script instead
+cookbook_file '/etc/init.d/tf2_server' do
+  owner "root"
+  mode "0755"
+end
+
+execute 'start/restart tf2 server' do
+  command '/etc/init.d/tf2_server restart'
+  action :run
+  user 'root'
+end
