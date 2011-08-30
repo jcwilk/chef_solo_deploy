@@ -28,44 +28,31 @@ directory srcds_root do
   mode "0755"
 end
 
-script "install steam" do
-  interpreter "bash"
-  user "chuck"
-  cwd srcds_root
-  not_if "test -d #{File.join(srcds_root,'/steam')}"
-  code <<-EOH
-  wget http://www.steampowered.com/download/hldsupdatetool.bin &&
-  chmod +x hldsupdatetool.bin &&
-  echo "yes" | ./hldsupdatetool.bin &&
-  chmod +x steam
-  EOH
+file File.join(srcds_root, 'install_steam.sh') do
+  owner 'chuck'
+  mode '0644'
 end
 
-script "verify steam up to date" do
-  interpreter "bash"
-  user "chuck"
+execute "install steam" do
   cwd srcds_root
-  code <<-EOH
-  ./steam
-  true
-  EOH
-  #ignore return codes, this will update and fail or fail... lol, not the most elegant updater
+  command './install_steam.sh'
+  creates File.join(srcds_root,'steam')
+  action :run
+  user 'chuck'
 end
 
-script "install tf2" do
-  interpreter "bash"
-  user "chuck"
+execute "install tf2" do
   cwd srcds_root
-  not_if "test -d #{File.join(srcds_root,'/organgebox/tf')}"
-  code <<-EOH
-  ./steam -command update -game tf -dir . -verify_all -retry
-  EOH
+  command './steam -command update -game tf -dir . -verify_all -retry'
+  creates File.join(srcds_root,'orangebox/srcds_run')
+  action :run
+  user 'chuck'
 end
 
 #server.cfg originally from http://forums.srcds.com/viewtopic/5264
 file File.join(srcds_root, 'orangebox/tf/cfg/server.cfg') do
   owner "chuck"
-  mode "644"
+  mode "0644"
 end
 
 #The command is supposed to be something like the following, but I'm not seeing
