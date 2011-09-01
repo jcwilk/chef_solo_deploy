@@ -1,6 +1,3 @@
-# --- Set host name ---
-# Note how this is plain Ruby code, so we can define variables to
-# DRY up our code:
 hostname = 'tf2.jcwilk.com'
 
 file '/etc/hostname' do
