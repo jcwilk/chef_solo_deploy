@@ -8,7 +8,7 @@ PATH=/bin:/usr/bin:/sbin:/usr/sbin
 DIR=/home/chuck/srcds/orangebox
 DAEMON=$DIR/srcds_run
 # Change all PARAMS to your needs.
-PARAMS="-game tf +map pl_badwater"
+PARAMS="-game tf -autoupdate +map pl_badwater"
 NAME=SRCDS
 DESC="tf2 dedicated server"
 case "$1" in
