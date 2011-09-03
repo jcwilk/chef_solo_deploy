@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # This runs as root on the server
+# ./install.sh chef_json_file.json
 
 chef_binary=/var/lib/gems/1.9.1/bin/chef-solo
 
