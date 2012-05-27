@@ -1,7 +1,7 @@
 This is a simple chef-solo deploy package.
 
 I've followed the instructions precisely as per
-http://opinionated-programmer.com/2011/06/chef-solo-tutorial-managing-a-single-server-with-chef/
+http://opinionatedprogrammer.com/2011/06/chef-solo-tutorial-managing-a-single-server-with-chef/
 for the initial commit, including the example default.rb recipe file.
 
 I will work this down to a more reasonable base minimum for master, and branch off from there for specific server usages. Any useful recipes will probably be moved into master, but the branching/merging structure is still undecided.
